@@ -1,0 +1,9 @@
+button.downloader {
+  background: rgb(43, 184, 43);
+  color: #fff;
+  border: none;
+  border-radius: 3px;
+  padding: .5rem 1rem;
+  margin: 0 .75rem;
+  cursor: pointer
+}

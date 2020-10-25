@@ -1,0 +1,17 @@
+{
+	"manifest_version": 2,
+	"name": "yt downloader",
+	"description": "youtube video downloader buttons",
+	"version": "1.0.0",
+	"icons": {"128": "icons/yt.png"},
+	"content_scripts": [
+		{
+			"matches": ["*://www.youtube.com/*", "*://youtube.com/*"],
+			"css": ["css/main.css"],
+			"js": ["js/index.js"]
+		}
+	],
+	"permissions": [
+		"activeTab"
+	]
+}
