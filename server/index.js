@@ -24,12 +24,15 @@ app.get('/audio', async (req, res, next) => {
 		const data = await ytdl.getBasicInfo(url, {format: 'mp4'})
 		const title = rus_to_latin(data.videoDetails.title.replace(/\s/g, "_")) || 'audio'
 
-		res.header('Content-Disposition', `attachment; filename="${title}.mp3"`);
-		ytdl(url, {
-			format: 'mp3',
-			filter: 'audioonly',
-		}).pipe(res)
-
+		if (data.player_response.playabilityStatus.status === 'OK') {
+			res.header('Content-Disposition', `attachment; filename="${title}.mp3"`);
+			ytdl(url, {
+				format: 'mp3',
+				filter: 'audioonly',
+			}).pipe(res)
+		} else {
+			console.log(data.player_response.playabilityStatus.reason)
+		}
 	} catch (err) {
 		console.error(err);
 	}
@@ -45,8 +48,13 @@ app.get('/video', async (req, res, next) => {
 		const data = await ytdl.getBasicInfo(url)
 		const title = rus_to_latin(data.videoDetails.title.replace(/\s/g, "_")) || 'video'
 
-		res.header('Content-Disposition', `attachment; filename="${title}.mp4"`);
-		ytdl(url, { format: 'mp4' }).pipe(res);
+		if (data.player_response.playabilityStatus.status === 'OK') {
+			res.header('Content-Disposition', `attachment; filename="${title}.mp4"`);
+			console.log('good 1')
+			ytdl(url, { format: 'mp4' }).pipe(res);
+		} else {
+			console.log(data.player_response.playabilityStatus.reason)
+		}
 	} catch (err) {
 		console.error(err);
 	}
