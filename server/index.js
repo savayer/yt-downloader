@@ -21,7 +21,8 @@ app.get('/audio', async (req, res, next) => {
 			return res.sendStatus(400);
 		}
 
-		const title = await ytdl.getBasicInfo(url) || 'audio'
+		const data = await ytdl.getBasicInfo(url)
+		const title = data.videoDetails.title || 'audio'
 
 		res.header('Content-Disposition', `attachment; filename="${title}.mp3"`);
 		ytdl(url, {
@@ -41,7 +42,8 @@ app.get('/video', async (req, res, next) => {
 			return res.sendStatus(400);
 		}
 
-		const title = await ytdl.getBasicInfo(url) || 'video'
+		const data = await ytdl.getBasicInfo(url)
+		const title = data.videoDetails.title || 'video'
 
 		res.header('Content-Disposition', `attachment; filename="${title}.mp4"`);
 		ytdl(url, { format: 'mp4' }).pipe(res);
