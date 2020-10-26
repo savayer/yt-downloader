@@ -34,7 +34,7 @@ app.get('/audio', async (req, res, next) => {
 			res.status(400).send(data.player_response.playabilityStatus.reason)
 		}
 	} catch (err) {
-		res.send('error')
+		res.status(500).send('Something went wrong')
 	}
 });
 
@@ -55,7 +55,7 @@ app.get('/video', async (req, res, next) => {
 			res.status(400).send(data.player_response.playabilityStatus.reason)
 		}
 	} catch (err) {
-		res.send('error')
+		res.status(500).send('Something went wrong')
 	}
 });
 
