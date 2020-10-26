@@ -20,14 +20,8 @@ app.get('/audio', async (req, res, next) => {
 		if(!ytdl.validateURL(url)) {
 			return res.sendStatus(400);
 		}
-		let title = 'audio';
 
-		await ytdl.getBasicInfo(url, {
-			format: 'mp4'
-		}, (err, info) => {
-			if (err) throw err;
-			title = info.player_response.videoDetails.title.replace(/[^\x00-\x7F]/g, "");
-		})
+		const title = await ytdl.getBasicInfo(url) || 'audio'
 
 		res.header('Content-Disposition', `attachment; filename="${title}.mp3"`);
 		ytdl(url, {
@@ -46,19 +40,11 @@ app.get('/video', async (req, res, next) => {
 		if(!ytdl.validateURL(url)) {
 			return res.sendStatus(400);
 		}
-		let title = 'video';
 
-		await ytdl.getBasicInfo(url, {
-			format: 'mp4'
-		}, (err, info) => {
-			title = info.player_response.videoDetails.title.replace(/[^\x00-\x7F]/g, "");
-		});
+		const title = await ytdl.getBasicInfo(url) || 'video'
 
-		res.header('Content-Disposition', `attachment; filename="${title || 'video'}.mp4"`);
-		ytdl(url, {
-			format: 'mp4',
-		}).pipe(res);
-
+		res.header('Content-Disposition', `attachment; filename="${title}.mp4"`);
+		ytdl(url, { format: 'mp4' }).pipe(res);
 	} catch (err) {
 		console.error(err);
 	}
