@@ -7,11 +7,11 @@ const PORT = 9090;
 app.use(cors());
 
 app.listen(PORT, () => {
-  console.log(`port ${PORT}`);
+	console.log(`port ${PORT}`);
 });
 
-app.get('/', (req, res) => {      
-  res.send('yt downloader');
+app.get('/', (req, res) => {
+	res.send('yt downloader');
 });
 
 app.get('/audio', async (req, res, next) => {
@@ -31,10 +31,10 @@ app.get('/audio', async (req, res, next) => {
 				filter: 'audioonly',
 			}).pipe(res)
 		} else {
-			console.log(data.player_response.playabilityStatus.reason)
+			res.status(400).send(data.player_response.playabilityStatus.reason)
 		}
 	} catch (err) {
-		console.error(err);
+		res.send('error')
 	}
 });
 
@@ -50,13 +50,12 @@ app.get('/video', async (req, res, next) => {
 
 		if (data.player_response.playabilityStatus.status === 'OK') {
 			res.header('Content-Disposition', `attachment; filename="${title}.mp4"`);
-			console.log('good 1')
 			ytdl(url, { format: 'mp4' }).pipe(res);
 		} else {
-			console.log(data.player_response.playabilityStatus.reason)
+			res.status(400).send(data.player_response.playabilityStatus.reason)
 		}
 	} catch (err) {
-		console.error(err);
+		res.send('error')
 	}
 });
 
