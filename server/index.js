@@ -18,7 +18,7 @@ app.get('/audio', async (req, res, next) => {
 	try {
 		const url = req.query.url;
 		if(!ytdl.validateURL(url)) {
-			return res.sendStatus(400);
+			return res.status(400).send('Invalid url');
 		}
 
 		const data = await ytdl.getBasicInfo(url, {format: 'mp4'})
@@ -42,7 +42,7 @@ app.get('/video', async (req, res, next) => {
 	try {
 		let url = req.query.url;
 		if(!ytdl.validateURL(url)) {
-			return res.sendStatus(400);
+			return res.status(400).send('Invalid url');
 		}
 
 		const data = await ytdl.getBasicInfo(url)

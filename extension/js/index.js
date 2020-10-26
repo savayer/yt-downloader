@@ -6,11 +6,16 @@ window.addEventListener('load', () => {
     buttonMp4.classList.add('downloader')
     buttonMp4.innerHTML = 'mp4'
     buttonMp4.addEventListener('click', async () => {
-      const response = await fetch(`${serverURL}/video?url=${window.location.href}`)
-      if (response.status === 200) {
-        createLink(`${serverURL}/video?url=${window.location.href}`)
-      } else if(res.status === 400) {
-        alert('Invalid url');
+      try {
+        const response = await fetch(`${serverURL}/video?url=${window.location.href}`)
+        if (!response.ok) {
+          const errorMessage = await response.text()
+          alert(errorMessage)
+        } else if (response.status === 200) {
+          createLink(`${serverURL}/video?url=${window.location.href}`)
+        }
+      } catch (e) {
+        console.error(e)
       }
     })
 
@@ -18,11 +23,16 @@ window.addEventListener('load', () => {
     buttonMp3.classList.add('downloader')
     buttonMp3.innerHTML = 'mp3'
     buttonMp3.addEventListener('click', async () => {
-      const response = await fetch(`${serverURL}/audio?url=${window.location.href}`)
-      if (response.status === 200) {
-        createLink(`${serverURL}/audio?url=${window.location.href}`)
-      } else if(res.status === 400) {
-        alert('Invalid url');
+      try {
+        const response = await fetch(`${serverURL}/audio?url=${window.location.href}`)
+        if (!response.ok) {
+          const errorMessage = await response.text()
+          alert(errorMessage)
+        } else if (response.status === 200) {
+          createLink(`${serverURL}/audio?url=${window.location.href}`)
+        }
+      } catch (e) {
+        console.error(e)
       }
     })
     $topLevelButtons.insertAdjacentElement('afterbegin', buttonMp4)
